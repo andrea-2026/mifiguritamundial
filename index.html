@@ -1162,6 +1162,26 @@ async function crearRostroExacto(){
   .then(function(result){
       if(result.ok){
         setPg(90);
+        if(st.att >= MAX && _paidTotal > _paidUsed) {
+          _paidUsed++;
+          if(_paidUsed >= _paidTotal) {
+            _paidTotal = 0;
+            _paidUsed  = 0;
+            localStorage.setItem('mf26_paid_total', '0');
+            localStorage.setItem('mf26_paid_used',  '0');
+            updPaid();
+            const btnC = document.getElementById('btnC');
+            const btnR = document.getElementById('btnRostro');
+            if(btnC){ btnC.textContent='⛔ SIN INTENTOS'; btnC.disabled=true; }
+            if(btnR){ btnR.textContent='⛔ SIN INTENTOS'; btnR.disabled=true; }
+          } else {
+            localStorage.setItem('mf26_paid_used', _paidUsed.toString());
+            updPaid();
+          }
+        } else if(st.att < MAX) {
+          st.att++;
+          save(); updAtt();
+        }
         mostrarResultado(result.url, nm);
       } else {
         showOv(false);
