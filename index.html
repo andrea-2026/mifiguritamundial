@@ -544,6 +544,7 @@ canvas { display:block; }
   <div style="display:flex;align-items:center;gap:14px;">
     <div class="logo-box">
       <div class="trophy">🏆</div>
+      <div class="fifa">FIFA</div>
     </div>
     <div class="brand">
       <h1>
@@ -760,6 +761,7 @@ canvas { display:block; }
   <div class="ft-brand">
     <div class="ft-logo">
       <div class="trophy">🏆</div>
+      <div class="fifa">FIFA</div>
     </div>
     <div class="ft-txt">
       <strong>MUNDIAL 2026</strong>
@@ -840,7 +842,7 @@ canvas { display:block; }
 ════════════════════════════════════════ -->
 <script>
 // ── URL de tu Google Apps Script — no cambiar ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-hTtUaXM32MmtBfMSRFH7wJrnnYVAsk35aNqlr7XLuXDw1pWulXwyZXbuxhpLsl4tmA/exec';
+const GAS_URL = '/api/proxy';
 
 const MAX = 3;
 // ID único por cliente — solo para identificarlo en Sheets
@@ -920,6 +922,7 @@ function crear(){
 
   fetch(GAS_URL, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ fn: 'generarFigurita', pB64: st.pB64, fB64: st.fB64, clientId: CLIENT_ID })
   })
   .then(r => r.json())
