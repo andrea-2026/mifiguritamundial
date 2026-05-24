@@ -999,6 +999,16 @@ function crear(){
           _paidUsed++;
           localStorage.setItem('mf26_paid_used', _paidUsed.toString());
           updPaid();
+          // Si se agotaron los comprados, bloquear botones
+          if(_paidUsed >= _paidTotal) {
+            const btnC = document.getElementById('btnC');
+            const btnR = document.getElementById('btnRostro');
+            if(btnC){ btnC.textContent='⛔ SIN INTENTOS'; btnC.disabled=true; }
+            if(btnR){ btnR.textContent='⛔ SIN INTENTOS'; btnR.disabled=true; }
+          }
+        } else if(st.att < MAX) {
+          st.att++;
+          save(); updAtt();
         }
         mostrarResultado(result.url, nm);
     } else {
