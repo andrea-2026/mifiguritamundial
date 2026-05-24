@@ -908,6 +908,13 @@ ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
 function updPaid() {
   const remaining = Math.max(0, _paidTotal - _paidUsed);
   document.getElementById('paidCount').textContent = remaining;
+  // Si hay paid disponibles y los gratis están agotados, desbloquear botones
+  if(remaining > 0 && st.att >= MAX) {
+    const btnC = document.getElementById('btnC');
+    const btnR = document.getElementById('btnRostro');
+    if(btnC){ btnC.textContent='🎨 CREAR FIGURITA COMPLETA'; btnC.disabled=false; }
+    if(btnR){ btnR.textContent='🎯 ROSTRO EXACTO'; btnR.disabled=false; }
+  }
 }
 
 /* ── DETECTAR PAGO EXITOSO AL CARGAR ─── */
@@ -935,9 +942,16 @@ function updAtt(){
   for(let i=1;i<=3;i++) document.getElementById(`d${i}`).classList.toggle('used', i<=st.att);
   if(r===0){
     const b=document.getElementById('btnC');
-    b.textContent='⛔ SIN INTENTOS GRATUITOS'; b.disabled=true;
     const b2=document.getElementById('btnRostro');
-    if(b2){ b2.textContent='⛔ SIN INTENTOS GRATUITOS'; b2.disabled=true; }
+    // Solo bloquear si TAMPOCO hay paid disponibles
+    if(_paidTotal - _paidUsed <= 0) {
+      b.textContent='⛔ SIN INTENTOS GRATUITOS'; b.disabled=true;
+      if(b2){ b2.textContent='⛔ SIN INTENTOS GRATUITOS'; b2.disabled=true; }
+    } else {
+      // Hay paid disponibles — desbloquear botones
+      b.textContent='🎨 CREAR FIGURITA COMPLETA'; b.disabled=false;
+      if(b2){ b2.textContent='🎯 ROSTRO EXACTO'; b2.disabled=false; }
+    }
   }
 }
 function save(){ localStorage.setItem('mf26', st.att); }
