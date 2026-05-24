@@ -68,18 +68,15 @@ body { background:var(--bg); color:var(--txt); font-family:'Nunito',sans-serif; 
   pointer-events: none;
 }
 
-/* logo FIFA */
+/* logo imagen */
 .logo-box {
   width: 64px; height: 64px;
-  background: linear-gradient(160deg, #7a1220 0%, #5a0e18 100%);
   border-radius: 12px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 2px;
-  box-shadow: 0 4px 14px rgba(90,14,24,.35);
+  overflow: hidden;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(90,14,24,.35);
 }
-.logo-box .trophy { font-size: 1.6rem; line-height: 1; }
-.logo-box .fifa   { font-family:'Bebas Neue',cursive; font-size:.72rem; letter-spacing:2px; color:#fff; }
+.logo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* brand text */
 .brand h1 { font-family:'Bebas Neue',cursive; line-height:1; }
@@ -408,11 +405,9 @@ canvas { display:block; }
 .ft-brand { display:flex; align-items:center; gap:12px; }
 .ft-logo {
   width:44px; height:44px;
-  background:linear-gradient(160deg,#7a1220,#5a0e18);
-  border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+  border-radius:8px; overflow:hidden; flex-shrink:0;
 }
-.ft-logo .trophy { font-size:1.1rem; }
-.ft-logo .fifa   { font-family:'Bebas Neue',cursive; font-size:.55rem; letter-spacing:2px; color:#fff; }
+.ft-logo img { width:100%; height:100%; object-fit:cover; display:block; }
 .ft-txt strong { display:block; font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:3px; color:#fff; }
 .ft-txt span   { font-size:.68rem; color:rgba(255,255,255,.4); letter-spacing:1px; }
 
@@ -541,17 +536,9 @@ canvas { display:block; }
      HEADER
 ════════════════════════════════════════ -->
 <header class="hdr">
-  <div style="display:flex;align-items:center;gap:14px;">
+  <div style="display:flex;align-items:center;">
     <div class="logo-box">
-      <div class="trophy">🏆</div>
-      <div class="fifa">FIFA</div>
-    </div>
-    <div class="brand">
-      <h1>
-        <span class="l1">MI FIGURITA</span><br>
-        <span class="l2">2026</span>
-      </h1>
-      <div class="sub">Creá tu figurita personalizada</div>
+      <img src="icon-512.png" alt="Mi Figurita 2026">
     </div>
   </div>
 
@@ -760,8 +747,7 @@ canvas { display:block; }
 <footer class="site-footer">
   <div class="ft-brand">
     <div class="ft-logo">
-      <div class="trophy">🏆</div>
-      <div class="fifa">FIFA</div>
+      <img src="icon-512.png" alt="Mi Figurita 2026">
     </div>
     <div class="ft-txt">
       <strong>MUNDIAL 2026</strong>
@@ -1123,10 +1109,7 @@ function buildCanvas(final=false, ai=null){
   // Nro watermark
   if(ai?.num){ ctx.save(); ctx.font=`bold 120px 'Bebas Neue',sans-serif`; ctx.fillStyle='rgba(255,255,255,.05)'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText(ai.num,W-10,H-60); ctx.restore(); }
 
-  // Badge FIFA
-  ctx.save(); ctx.fillStyle='rgba(0,0,0,.52)'; rr(W-68,8,60,22,6,'fill');
-  ctx.font=`700 8px 'Nunito',sans-serif`; ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('FIFA 2026',W-38,19); ctx.restore();
+  // Badge eliminado
 
   // País watermark
   if(ai?.pais){ ctx.save(); ctx.font=`bold 48px 'Bebas Neue',sans-serif`; ctx.fillStyle='rgba(255,255,255,.07)'; ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillText(ai.pais.slice(0,3).toUpperCase(),12,4); ctx.restore(); }
