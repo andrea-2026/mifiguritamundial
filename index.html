@@ -884,6 +884,7 @@ canvas { display:block; }
           <li><span class="chk">✓</span>15 figuritas personalizadas</li>
           <li><span class="chk">✓</span>Descarga en PNG HD</li>
           <li><span class="chk">✓</span>Kit para imprimir</li>
+          <li><span class="chk">✓</span>Compartir en redes</li>
         </ul>
         <button class="btn-pk bd" onclick="pagarConMP('album')" id="btnAlbum">ELEGIR PACK →</button>
       </div>
@@ -981,11 +982,25 @@ function upload(t, e){
   const f = e.target.files[0]; if(!f)return;
   const r = new FileReader();
   r.onload = ev => {
-    const b64 = ev.target.result.split(',')[1];
     const img = new Image();
     img.onload = () => {
-      if(t==='p'){ st.pImg=img; st.pB64=b64; markDone(1,f.name); showThumb(1,ev.target.result); }
-      else        { st.fImg=img; st.fB64=b64; markDone(2,f.name); showThumb(2,ev.target.result); liveRender(); }
+      // Comprimir imagen para no superar límite del proxy (máx 1200px, calidad 0.82)
+      const MAX_DIM = 1200;
+      let w = img.width, h = img.height;
+      if(w > MAX_DIM || h > MAX_DIM) {
+        if(w > h) { h = Math.round(h * MAX_DIM / w); w = MAX_DIM; }
+        else      { w = Math.round(w * MAX_DIM / h); h = MAX_DIM; }
+      }
+      const tmpCanvas = document.createElement('canvas');
+      tmpCanvas.width = w; tmpCanvas.height = h;
+      const tmpCtx = tmpCanvas.getContext('2d');
+      tmpCtx.drawImage(img, 0, 0, w, h);
+      const compressed = tmpCanvas.toDataURL('image/jpeg', 0.82);
+      const b64 = compressed.split(',')[1];
+      const thumb = compressed;
+
+      if(t==='p'){ st.pImg=img; st.pB64=b64; markDone(1,f.name); showThumb(1,thumb); }
+      else        { st.fImg=img; st.fB64=b64; markDone(2,f.name); showThumb(2,thumb); liveRender(); }
     };
     img.src = ev.target.result;
   };
