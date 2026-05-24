@@ -567,6 +567,25 @@ canvas { display:block; }
   text-transform: uppercase;
   letter-spacing: .8px;
 }
+
+/* botón imprimir */
+.print-btn {
+  width:100%; background:var(--bordo); color:#fff; border:none; border-radius:8px;
+  font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:3px; padding:14px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.print-btn:hover { background:var(--bordo-dk); transform:translateY(-1px); box-shadow:0 6px 18px rgba(140,26,40,.3); }
+
+@media print {
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea {
+    position: fixed; left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: white;
+  }
+}
 </style>
 </head>
 <body>
@@ -739,6 +758,7 @@ canvas { display:block; }
 
       <div class="dl-wrap" id="dlW">
         <button class="dl-btn" onclick="doDownload()">⬇&nbsp; DESCARGAR FIGURITA</button>
+        <button class="print-btn" onclick="doImprimir()">🖨&nbsp; VERSIÓN PARA IMPRIMIR</button>
         <button class="sh-btn" onclick="doShare()">↗&nbsp; COMPARTIR</button>
       </div>
 
@@ -1363,6 +1383,110 @@ function darken(h,f=.6){ const [r,g,b]=h2r(h); return `rgb(${Math.round(r*f)},${
 function fitCover(img,x,y,w,h){ const ar=img.width/img.height,tar=w/h; let sx=0,sy=0,sw=img.width,sh=img.height; if(ar>tar){sw=sh*tar;sx=(img.width-sw)/2;}else{sh=sw/tar;sy=(img.height-sh)/2;} ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h); }
 function fitCoverTop(img,x,y,w,h){ const ar=img.width/img.height,tar=w/h; let sx=0,sy=0,sw=img.width,sh=img.height; if(ar>tar){sw=sh*tar;sx=(img.width-sw)/2;}else sh=sw/tar; ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h); }
 
+
+/* ── IMPRIMIR FIGURITA ─── */
+function doImprimir(){
+  // Obtener imagen del canvas
+  const dataUrl = cv.toDataURL('image/png');
+  
+  // Crear ventana de impresión
+  const ventana = window.open('', '_blank', 'width=800,height=1000');
+  const nm = document.getElementById('fn').value.trim() || 'figurita';
+  
+  ventana.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Figurita - ${nm} - Mundial 2026</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          background: white;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          font-family: Arial, sans-serif;
+        }
+        .hoja {
+          width: 210mm;
+          min-height: 297mm;
+          background: white;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 20mm;
+          gap: 16px;
+        }
+        .figurita-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .figurita-wrap img {
+          width: 180mm;
+          max-height: 240mm;
+          object-fit: contain;
+          border-radius: 12px;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        }
+        .titulo {
+          font-size: 14px;
+          color: #666;
+          text-align: center;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .nombre {
+          font-size: 22px;
+          font-weight: 900;
+          color: #8C1A28;
+          text-align: center;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+        }
+        .footer {
+          font-size: 10px;
+          color: #aaa;
+          text-align: center;
+          margin-top: 8px;
+        }
+        @media print {
+          body { margin: 0; }
+          .no-print { display: none; }
+          .hoja { box-shadow: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="hoja">
+        <div class="titulo">MI FIGURITA · MUNDIAL 2026</div>
+        <div class="nombre">${nm}</div>
+        <div class="figurita-wrap">
+          <img src="${dataUrl}" alt="Figurita ${nm}">
+        </div>
+        <div class="footer">mifiguritamundial.lat · Imprimí y pegala en tu álbum</div>
+        <button class="no-print" onclick="window.print()" style="
+          margin-top: 16px;
+          padding: 12px 32px;
+          background: #8C1A28;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          letter-spacing: 2px;
+        ">🖨 IMPRIMIR</button>
+      </div>
+    </body>
+    </html>
+  `);
+  ventana.document.close();
+}
+
 /* ── SERVICE WORKER (PWA) ─── */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -1373,5 +1497,10 @@ if ('serviceWorker' in navigator) {
 }
 
 </script>
+
+<!-- Área de impresión oculta -->
+<div id="printArea" style="display:none;">
+  <img id="printImg" style="max-width:100%;max-height:100%;object-fit:contain;">
+</div>
 </body>
 </html>
