@@ -920,7 +920,6 @@ function crear(){
 
   fetch(GAS_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ fn: 'generarFigurita', pB64: st.pB64, fB64: st.fB64, clientId: CLIENT_ID })
   })
   .then(r => r.json())
