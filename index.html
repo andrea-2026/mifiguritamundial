@@ -533,6 +533,40 @@ canvas { display:block; }
   padding:10px 30px; cursor:pointer; transition:all .2s;
 }
 .btn-cerrar:hover { border-color:var(--txt2); color:var(--txt); }
+
+/* ═══════════════════════════════════════
+   CAJA INTENTOS COMPRADOS
+═══════════════════════════════════════ */
+.att-box-paid {
+  background: var(--white);
+  border: 1.5px solid var(--teal);
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center; gap: 14px;
+  max-width: 260px;
+  box-shadow: 0 2px 10px rgba(26,138,138,.15);
+  margin-top: 10px;
+}
+.att-title-paid {
+  font-size:.72rem; font-weight:900; letter-spacing:1.5px;
+  color:var(--teal); text-transform:uppercase; margin-bottom:4px;
+}
+.paid-number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--teal);
+  line-height: 1;
+  min-width: 44px;
+  text-align: center;
+}
+.paid-label {
+  font-size: .68rem;
+  color: var(--txt2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
 </style>
 </head>
 <body>
@@ -542,9 +576,8 @@ canvas { display:block; }
 ════════════════════════════════════════ -->
 <header class="hdr">
   <div style="display:flex;align-items:center;gap:14px;">
-    <div class="logo-box">
-      <div class="trophy">🏆</div>
-      <div class="fifa">FIFA</div>
+    <div class="logo-box" style="background:none;box-shadow:none;padding:0;">
+      <img src="icon-192.png" style="width:64px;height:64px;border-radius:12px;object-fit:cover;">
     </div>
     <div class="brand">
       <h1>
@@ -568,6 +601,15 @@ canvas { display:block; }
       <div style="margin-top:6px;">
 
       </div>
+    </div>
+  </div>
+  <!-- INTENTOS COMPRADOS -->
+  <div class="att-box att-box-paid">
+    <div class="gift">🛒</div>
+    <div>
+      <div class="att-title-paid">Intentos comprados</div>
+      <div class="paid-number" id="paidCount">0</div>
+      <div class="paid-label">disponibles</div>
     </div>
   </div>
 </header>
@@ -759,9 +801,8 @@ canvas { display:block; }
 ════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="ft-brand">
-    <div class="ft-logo">
-      <div class="trophy">🏆</div>
-      <div class="fifa">FIFA</div>
+    <div class="ft-logo" style="background:none;padding:0;">
+      <img src="icon-192.png" style="width:44px;height:44px;border-radius:8px;object-fit:cover;">
     </div>
     <div class="ft-txt">
       <strong>MUNDIAL 2026</strong>
@@ -845,6 +886,8 @@ canvas { display:block; }
 const GAS_URL = '/api/proxy';
 
 const MAX = 3;
+let _paidTotal = parseInt(localStorage.getItem('mf26_paid_total') || '0');
+let _paidUsed  = parseInt(localStorage.getItem('mf26_paid_used')  || '0');
 // ID único por cliente — solo para identificarlo en Sheets
 let CLIENT_ID = localStorage.getItem('fig26_cid') || '';
 if (!CLIENT_ID) {
@@ -861,37 +904,29 @@ const ctx = cv.getContext('2d');
 const W=660, H=900;
 ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
 
+/* ── ACTUALIZAR NÚMERO COMPRADOS ─── */
+function updPaid() {
+  const remaining = Math.max(0, _paidTotal - _paidUsed);
+  document.getElementById('paidCount').textContent = remaining;
+}
+
 /* ── DETECTAR PAGO EXITOSO AL CARGAR ─── */
 (function detectarPago() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('pago') === 'ok' && params.get('status') === 'approved') {
-    const plan = params.get('plan') || 'basico';
     const intentos = parseInt(params.get('intentos') || '1');
-    
-    // Sumar intentos localmente
-    st.att = Math.max(0, st.att - intentos);
-    if (st.att < 0) st.att = 0;
-    localStorage.setItem('mf26', st.att.toString());
-    
-    // Registrar en Google Sheets via proxy
-    fetch(GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fn: 'obtenerOCrearCliente', clientId: CLIENT_ID })
-    }).catch(() => {});
-    
-    // Limpiar URL sin recargar
+    _paidTotal = intentos;
+    _paidUsed  = 0;
+    localStorage.setItem('mf26_paid_total', intentos.toString());
+    localStorage.setItem('mf26_paid_used',  '0');
     window.history.replaceState({}, document.title, window.location.pathname);
-    
-    // Mostrar mensaje de éxito
     setTimeout(() => {
-      alert('✅ ¡Pago exitoso! Se acreditaron ' + intentos + ' intento(s) adicional(es).');
+      alert('✅ ¡Pago exitoso! Tenés ' + intentos + ' figurita(s) disponible(s).');
+      updPaid();
     }, 500);
   }
-})();
-
-/* ── INIT ─── */
-updAtt(); drawPH();
+})();/* ── INIT ─── */
+updAtt(); updPaid(); drawPH();
 
 function updAtt(){
   const r = Math.max(0, MAX - st.att);
@@ -941,7 +976,9 @@ function crear(){
   if(!st.fImg){ setStatus('err','⚠️ Subí el marco de figurita (paso 2).'); return; }
   const nm = document.getElementById('fn').value.trim();
   if(!nm){ setStatus('err','⚠️ Ingresá el nombre del jugador.'); return; }
-  if(st.att >= MAX){ openModal(); return; }
+  if(st.att >= MAX) {
+    if(_paidTotal - _paidUsed <= 0) { openModal(); return; }
+  }
 
   st.att++; save(); updAtt();
   showOv(true,'PROCESANDO','Subiendo imágenes al servidor...');
@@ -958,7 +995,12 @@ function crear(){
   .then(function(result){
     if(result.ok){
       setPg(90);
-      mostrarResultado(result.url, nm);
+      if(st.att >= MAX && _paidTotal > _paidUsed) {
+          _paidUsed++;
+          localStorage.setItem('mf26_paid_used', _paidUsed.toString());
+          updPaid();
+        }
+        mostrarResultado(result.url, nm);
     } else {
       showOv(false);
       setStatus('err','❌ Error IA: ' + result.error);
@@ -1071,7 +1113,9 @@ async function crearRostroExacto(){
   if(!st.fImg){ setStatus('err','⚠️ Subí el marco de figurita (paso 2).'); return; }
   const nm = document.getElementById('fn').value.trim();
   if(!nm){ setStatus('err','⚠️ Ingresá el nombre del jugador.'); return; }
-  if(st.att >= MAX){ openModal(); return; }
+  if(st.att >= MAX) {
+    if(_paidTotal - _paidUsed <= 0) { openModal(); return; }
+  }
 
   st.att++; save(); updAtt();
   showOv(true,'PROCESANDO','Preparando tu figurita...');
