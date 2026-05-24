@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Figurita 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A8A8A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MiFigurita">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS — extraídos directo del mockup
+═══════════════════════════════════════════ */
+:root {
+  --bg:        #F0EBE0;   /* beige crema del fondo */
+  --white:     #FFFFFF;
+  --teal:      #1A8A8A;   /* teal/verde agua */
+  --teal-dark: #146E6E;
+  --teal-lt:   #E5F4F4;
+  --bordo:     #8C1A28;   /* bordo/vino oscuro */
+  --bordo-dk:  #6E1320;
+  --navy:      #0B1E45;   /* azul navy oscuro */
+  --navy2:     #071335;
+  --gold:      #C8A020;
+  --gold-lt:   #FFF3D0;
+  --txt:       #1A1A2A;
+  --txt2:      #6A7080;
+  --border:    #D8D0C4;
+  --sh:        rgba(10,28,68,.10);
+  /* blob teal esquina — del mockup */
+  --blob: #1A8A8A;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--txt); font-family:'Nunito',sans-serif; min-height:100vh; }
+
+/* ═══════════════════════════════════════════
+   HEADER — blanco, 3px teal abajo
+═══════════════════════════════════════════ */
+.hdr {
+  background: var(--white);
+  border-bottom: 3px solid var(--teal);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 16px var(--sh);
+  position: relative;
+  overflow: hidden;
+}
+
+/* blob círculo teal decorativo — esquina derecha arriba */
+.hdr::after {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 220px; height: 220px;
+  background: var(--blob);
+  border-radius: 50%;
+  opacity: .18;
+  pointer-events: none;
+}
+
+/* logo FIFA */
+.logo-box {
+  width: 64px; height: 64px;
+  background: linear-gradient(160deg, #7a1220 0%, #5a0e18 100%);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+  box-shadow: 0 4px 14px rgba(90,14,24,.35);
+  flex-shrink: 0;
+}
+.logo-box .trophy { font-size: 1.6rem; line-height: 1; }
+.logo-box .fifa   { font-family:'Bebas Neue',cursive; font-size:.72rem; letter-spacing:2px; color:#fff; }
+
+/* brand text */
+.brand h1 { font-family:'Bebas Neue',cursive; line-height:1; }
+.brand .l1 { font-size:1.05rem; letter-spacing:4px; color:var(--navy); }
+.brand .l2 { font-size:2.2rem; letter-spacing:2px; color:var(--teal); }
+.brand .sub { font-size:.65rem; letter-spacing:2.5px; color:var(--txt2); text-transform:uppercase; margin-top:2px; }
+
+/* badge 3 intentos */
+.att-box {
+  background: var(--white);
+  border: 1.5px solid #E8D8B0;
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex; align-items: flex-start; gap: 11px;
+  max-width: 260px;
+  box-shadow: 0 2px 10px rgba(200,160,32,.12);
+}
+.att-box .gift { font-size:1.4rem; flex-shrink:0; margin-top:1px; }
+.att-title {
+  font-size:.72rem; font-weight:900; letter-spacing:1.5px;
+  color:var(--bordo); text-transform:uppercase; margin-bottom:3px;
+}
+.att-sub  { font-size:.7rem; color:var(--txt2); line-height:1.45; }
+.att-dots { display:flex; gap:5px; margin-top:7px; }
+.dot {
+  width:20px; height:20px; border-radius:50%;
+  border:2px solid var(--bordo);
+  background:rgba(140,26,40,.08);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.6rem; color:transparent; font-weight:900;
+  transition:all .3s;
+}
+.dot.used { background:var(--bordo); color:#fff; }
+
+/* ═══════════════════════════════════════════
+   CUERPO: 2 columnas
+═══════════════════════════════════════════ */
+.body-wrap {
+  max-width: 1060px;
+  margin: 30px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media(max-width:860px){ .body-wrap{ grid-template-columns:1fr; } }
+
+/* ═══════════════════════════════════════════
+   PANEL IZQUIERDO — blanco, radio 16, sombra
+═══════════════════════════════════════════ */
+.left-panel {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px var(--sh);
+  overflow: hidden;
+}
+
+.step-block { padding: 20px 22px; border-bottom: 1px solid #EEE8DF; }
+.step-block:last-child { border-bottom: none; }
+
+/* etiqueta de paso */
+.step-lbl { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.step-num {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--teal); color:#fff;
+  font-weight:800; font-size:.85rem;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.step-txt .st { font-weight:800; font-size:.88rem; letter-spacing:.6px; text-transform:uppercase; color:var(--txt); }
+.step-txt .sh { font-size:.66rem; color:var(--txt2); letter-spacing:.5px; text-transform:uppercase; }
+
+/* ── upload zone — borde punteado gris ── */
+.uz {
+  position:relative;
+  border: 1.8px dashed #BBBBBB;
+  border-radius: 10px;
+  background: var(--white);
+  padding: 26px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.uz:hover { border-color:var(--teal); background:var(--teal-lt); }
+.uz.done  { border-color:var(--teal); border-style:solid; background:var(--teal-lt); }
+.uz input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+/* icono dentro del upload */
+.uz-ic {
+  width:50px; height:50px;
+  margin:0 auto 11px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* icono persona SVG teal — igual al mockup */
+.uz-ic svg { width:44px; height:44px; }
+
+.uz-mt { font-size:.82rem; color:var(--txt); font-weight:600; line-height:1.5; margin-bottom:3px; }
+.uz-sb { font-size:.7rem; color:var(--txt2); }
+.uz-prev { display:none; width:100%; height:100px; object-fit:cover; border-radius:6px; margin-top:10px; }
+.uz-prev.show { display:block; }
+
+/* ── campos texto ── */
+.fld { margin-bottom:14px; }
+.fld:last-of-type { margin-bottom:0; }
+.fld label { display:block; font-weight:700; font-size:.82rem; color:var(--txt); margin-bottom:5px; }
+.fld input, .fld select {
+  width:100%;
+  background: var(--white);
+  border: 1.5px solid #CCCCCC;
+  border-radius: 8px;
+  color: var(--txt);
+  font-family:'Nunito',sans-serif;
+  font-size:.95rem;
+  padding: 10px 13px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  appearance:none;
+}
+.fld select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236A7080' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 13px center;
+  padding-right:36px;
+}
+.fld input:focus, .fld select:focus {
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(26,138,138,.1);
+}
+.fld input::placeholder { color:#BBBBBB; }
+
+/* ── botón crear — bordo con ícono estrella ── */
+.btn-crear {
+  width:100%;
+  background: var(--bordo);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family:'Bebas Neue',cursive;
+  font-size:1.2rem;
+  letter-spacing:3px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all .2s;
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  position:relative; overflow:hidden;
+}
+.btn-crear::before {
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+  transition:left .5s;
+}
+.btn-crear:hover::before { left:100%; }
+.btn-crear:hover:not(:disabled) { background:var(--bordo-dk); transform:translateY(-1px); box-shadow:0 6px 18px rgba(140,26,40,.32); }
+.btn-crear:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+
+.btn-cara {
+  width:100%;
+  background: var(--teal);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-family:'Bebas Neue',cursive;
+  font-size:1.1rem;
+  letter-spacing:3px;
+  padding:13px 20px;
+  cursor:pointer;
+  transition:all .2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.btn-cara:hover:not(:disabled) { background:var(--teal-dark); transform:translateY(-1px); box-shadow:0 6px 16px rgba(29,138,138,.3); }
+.btn-cara:disabled { opacity:.4; cursor:not-allowed; }
+
+.btn-rostro {
+  width:100%;
+  background: linear-gradient(135deg, #1a3a6e 0%, #0B1E45 100%);
+  color:#fff;
+  border: 1.5px solid rgba(200,160,32,.4);
+  border-radius:8px;
+  font-family:'Bebas Neue',cursive;
+  font-size:1.1rem;
+  letter-spacing:3px;
+  padding:13px 20px;
+  cursor:pointer;
+  transition:all .2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.btn-rostro:hover:not(:disabled) {
+  background: linear-gradient(135deg, #223d75 0%, #0e2550 100%);
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(11,30,69,.45);
+  border-color: rgba(200,160,32,.7);
+}
+.btn-rostro:disabled { opacity:.4; cursor:not-allowed; }
+
+/* ═══════════════════════════════════════════
+   PANEL DERECHO — VISTA PREVIA
+═══════════════════════════════════════════ */
+.right-panel {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px var(--sh);
+  overflow: hidden;
+}
+
+.vp-hdr {
+  background: var(--teal);
+  padding: 13px 20px;
+  text-align:center;
+}
+.vp-hdr span {
+  font-weight:800; font-size:.75rem; letter-spacing:3px; color:#fff; text-transform:uppercase;
+}
+
+.vp-body {
+  padding:28px 22px;
+  display:flex; flex-direction:column; align-items:center; gap:18px;
+  min-height:500px;
+}
+
+/* canvas wrap */
+.cv-wrap { position:relative; border-radius:14px; overflow:hidden; box-shadow:0 8px 32px rgba(10,28,68,.22); }
+canvas { display:block; }
+
+/* overlay loading */
+.cv-ov {
+  position:absolute; inset:0;
+  background:rgba(240,235,224,.92); backdrop-filter:blur(6px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+  opacity:0; pointer-events:none; transition:opacity .3s; border-radius:14px;
+}
+.cv-ov.show { opacity:1; pointer-events:all; }
+.spinner { width:40px; height:40px; border:3px solid rgba(26,138,138,.2); border-top-color:var(--teal); border-radius:50%; animation:spin .8s linear infinite; }
+@keyframes spin{to{transform:rotate(360deg);}}
+.ov-title { font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:3px; color:var(--teal); }
+.ov-sub   { font-size:.73rem; color:var(--txt2); }
+.pg-bar { width:120px; height:3px; background:#ddd; border-radius:3px; overflow:hidden; }
+.pg-fill{ height:100%; background:linear-gradient(90deg,var(--teal),var(--bordo)); width:0%; border-radius:3px; transition:width .4s; }
+
+/* status */
+.sbar { width:100%; border-radius:8px; padding:10px 13px; font-size:.8rem; font-weight:600; display:none; align-items:center; gap:7px; }
+.sbar.show { display:flex; }
+.sbar.info  { background:var(--teal-lt); border:1px solid var(--teal); color:var(--teal-dark); }
+.sbar.ok    { background:#edfaf3; border:1px solid #34c77b; color:#1a7a4a; }
+.sbar.err   { background:#fef0f2; border:1px solid var(--bordo); color:var(--bordo); }
+.sbar.load  { background:var(--gold-lt); border:1px solid var(--gold); color:#7a5a10; }
+
+/* botones descarga / compartir */
+.dl-btn {
+  width:100%; background:var(--teal); color:#fff; border:none; border-radius:8px;
+  font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:3px; padding:14px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.dl-btn:hover { background:var(--teal-dark); transform:translateY(-1px); box-shadow:0 6px 18px rgba(26,138,138,.3); }
+
+.sh-btn {
+  width:100%; background:transparent; color:var(--txt2); border:1.5px solid var(--border);
+  border-radius:8px; font-weight:700; font-size:.9rem; padding:12px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.sh-btn:hover { border-color:var(--teal); color:var(--teal); }
+
+.dl-wrap { width:100%; display:flex; flex-direction:column; gap:9px; display:none; }
+.dl-wrap.show { display:flex; }
+
+/* ═══════════════════════════════════════════
+   CÓMO FUNCIONA
+═══════════════════════════════════════════ */
+.how-sec { max-width:1060px; margin:0 auto 34px; padding:0 24px; }
+.how-sec h2 { text-align:center; font-weight:800; font-size:1rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--navy); margin-bottom:22px; }
+.how-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+@media(max-width:680px){ .how-grid{ grid-template-columns:repeat(2,1fr); } }
+
+.how-card { background:var(--white); border-radius:14px; padding:22px 14px; text-align:center; box-shadow:0 2px 12px var(--sh); transition:transform .2s; }
+.how-card:hover { transform:translateY(-3px); }
+.hc-ic { width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 12px; }
+.hc-ic.tl  { background:var(--teal); }
+.hc-ic.bd  { background:var(--bordo); }
+.hc-num { font-weight:800; font-size:.68rem; letter-spacing:1px; color:var(--teal); text-transform:uppercase; margin-bottom:3px; }
+.how-card h3 { font-weight:800; font-size:.82rem; color:var(--navy); margin-bottom:5px; text-transform:uppercase; letter-spacing:.4px; }
+.how-card p  { font-size:.75rem; color:var(--txt2); line-height:1.55; }
+
+/* ═══════════════════════════════════════════
+   BANNER 3 INTENTOS — beige dorado con botón
+═══════════════════════════════════════════ */
+.free-bar { max-width:1060px; margin:0 auto 40px; padding:0 24px; }
+.free-inner {
+  background: #F5EDD5;
+  border: 1.5px solid #D4B060;
+  border-radius: 14px;
+  padding: 20px 28px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.free-left { display:flex; align-items:center; gap:15px; }
+.free-lock {
+  width:44px; height:44px;
+  background:linear-gradient(135deg,var(--bordo),var(--bordo-dk));
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem; color:#fff; flex-shrink:0;
+}
+.free-copy strong { display:block; font-weight:800; font-size:.88rem; color:var(--navy); margin-bottom:3px; }
+.free-copy p      { font-size:.75rem; color:var(--txt2); line-height:1.45; }
+
+.btn-ver {
+  background:var(--bordo); color:#fff; border:none; border-radius:8px;
+  font-weight:800; font-size:.88rem; letter-spacing:.5px;
+  padding:13px 24px; cursor:pointer; white-space:nowrap;
+  transition:all .2s; display:flex; align-items:center; gap:8px;
+}
+.btn-ver:hover { background:var(--bordo-dk); transform:translateY(-1px); box-shadow:0 6px 18px rgba(140,26,40,.3); }
+
+/* ═══════════════════════════════════════════
+   FOOTER — navy oscuro degradado a teal
+═══════════════════════════════════════════ */
+.site-footer {
+  background: linear-gradient(135deg, var(--navy) 0%, #0D3A4A 100%);
+  padding: 24px 32px;
+  display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+}
+.ft-brand { display:flex; align-items:center; gap:12px; }
+.ft-logo {
+  width:44px; height:44px;
+  background:linear-gradient(160deg,#7a1220,#5a0e18);
+  border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+}
+.ft-logo .trophy { font-size:1.1rem; }
+.ft-logo .fifa   { font-family:'Bebas Neue',cursive; font-size:.55rem; letter-spacing:2px; color:#fff; }
+.ft-txt strong { display:block; font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:3px; color:#fff; }
+.ft-txt span   { font-size:.68rem; color:rgba(255,255,255,.4); letter-spacing:1px; }
+
+/* ═══════════════════════════════════════════
+   MODAL PLANES Y PRECIOS
+═══════════════════════════════════════════ */
+.modal-bg {
+  display:none; position:fixed; inset:0;
+  background:rgba(10,28,68,.75); backdrop-filter:blur(10px);
+  z-index:200; align-items:center; justify-content:center; padding:20px;
+  overflow-y:auto;
+}
+.modal-bg.open { display:flex; }
+
+.modal {
+  background:var(--white); border-radius:20px;
+  width:100%; max-width:720px;
+  box-shadow:0 30px 80px rgba(10,28,68,.35);
+  animation:mpop .32s cubic-bezier(.34,1.56,.64,1);
+  overflow:hidden;
+}
+@keyframes mpop{ from{opacity:0;transform:scale(.88) translateY(16px);} to{opacity:1;transform:scale(1) translateY(0);} }
+
+.modal-hdr {
+  background:linear-gradient(135deg,var(--navy),#0D3A4A);
+  padding:28px 30px 22px;
+  text-align:center; position:relative;
+}
+.modal-hdr::before { content:''; position:absolute; right:-40px; top:-40px; width:160px; height:160px; background:rgba(26,138,138,.14); border-radius:50%; pointer-events:none; }
+.modal-hdr::after  { content:''; position:absolute; left:-20px; bottom:-30px; width:100px; height:100px; background:rgba(140,26,40,.14); border-radius:50%; pointer-events:none; }
+.modal-hdr .mi { font-size:2.2rem; margin-bottom:8px; }
+.modal-hdr h2  { font-family:'Bebas Neue',cursive; font-size:1.8rem; letter-spacing:4px; color:#fff; margin-bottom:4px; }
+.modal-hdr p   { font-size:.82rem; color:rgba(255,255,255,.55); }
+
+.modal-close {
+  position:absolute; top:14px; right:18px;
+  background:rgba(255,255,255,.15); border:none; border-radius:50%;
+  width:32px; height:32px; color:#fff; font-size:1.1rem;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.modal-close:hover { background:rgba(255,255,255,.3); }
+
+/* grid 3 packs */
+.packs-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  padding:0; margin:0;
+}
+@media(max-width:600px){ .packs-grid{ grid-template-columns:1fr; } }
+
+.pk {
+  padding:26px 22px;
+  border-right:1px solid #EEE8DF;
+  position:relative; transition:background .2s;
+}
+.pk:last-child { border-right:none; }
+.pk:hover { background:#FAFAF8; }
+.pk.feat  { background:linear-gradient(180deg,#0e2a5a 0%,var(--navy2) 100%); }
+.pk.feat:hover { background:linear-gradient(180deg,#122f6a 0%,#0e2553 100%); }
+
+.pk-badge {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  background:var(--gold); color:#000; font-weight:900;
+  font-size:.6rem; letter-spacing:2px; text-transform:uppercase;
+  padding:4px 14px; border-radius:0 0 8px 8px;
+}
+
+.pk-ic { font-size:2rem; margin-bottom:10px; }
+.pk-name { font-family:'Bebas Neue',cursive; font-size:1.35rem; letter-spacing:3px; margin-bottom:14px; }
+.pk:not(.feat) .pk-name { color:var(--navy); }
+.pk.feat       .pk-name { color:#fff; }
+
+.pk-features { list-style:none; margin-bottom:20px; display:flex; flex-direction:column; gap:7px; }
+.pk-features li { display:flex; align-items:center; gap:8px; font-size:.8rem; font-weight:600; }
+.pk:not(.feat) .pk-features li { color:var(--txt2); }
+.pk.feat       .pk-features li { color:rgba(255,255,255,.8); }
+.chk {
+  width:18px; height:18px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.58rem; font-weight:900; flex-shrink:0;
+}
+.pk:not(.feat) .chk { background:var(--teal-lt); color:var(--teal); }
+.pk.feat       .chk { background:rgba(255,255,255,.15); color:#F0C840; }
+
+.btn-pk {
+  width:100%; border:none; border-radius:8px;
+  font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:3px;
+  padding:13px; cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.btn-pk.tl { background:var(--teal); color:#fff; }
+.btn-pk.tl:hover { background:var(--teal-dark); transform:translateY(-1px); box-shadow:0 6px 16px rgba(26,138,138,.3); }
+.btn-pk.gd { background:linear-gradient(135deg,var(--gold),#9A7010); color:#fff; }
+.btn-pk.gd:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(200,160,32,.35); }
+.btn-pk.bd { background:var(--bordo); color:#fff; }
+.btn-pk.bd:hover { background:var(--bordo-dk); transform:translateY(-1px); box-shadow:0 6px 16px rgba(140,26,40,.3); }
+
+.pk-price {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.6rem;
+  color: var(--teal);
+  margin: 6px 0 12px;
+  letter-spacing: 1px;
+}
+.pk-price span {
+  font-size: .85rem;
+  color: var(--txt2);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+}
+.modal-footer {
+  padding:16px 24px; border-top:1px solid #EEE8DF;
+  display:flex; justify-content:center;
+}
+.btn-cerrar {
+  background:transparent; border:1.5px solid var(--border); border-radius:8px;
+  color:var(--txt2); font-size:.88rem; font-weight:700;
+  padding:10px 30px; cursor:pointer; transition:all .2s;
+}
+.btn-cerrar:hover { border-color:var(--txt2); color:var(--txt); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<header class="hdr">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="logo-box">
+      <div class="trophy">🏆</div>
+      <div class="fifa">FIFA</div>
+    </div>
+    <div class="brand">
+      <h1>
+        <span class="l1">MI FIGURITA</span><br>
+        <span class="l2">2026</span>
+      </h1>
+      <div class="sub">Creá tu figurita personalizada</div>
+    </div>
+  </div>
+
+  <div class="att-box">
+    <div class="gift">🎁</div>
+    <div>
+      <div class="att-title"><span id="hc">3</span> INTENTOS GRATIS</div>
+      <div class="att-sub">Te quedan <strong id="hr">3</strong> intentos gratuitos.<br>Luego se cobrará por personalización.</div>
+      <div class="att-dots">
+        <div class="dot" id="d1"></div>
+        <div class="dot" id="d2"></div>
+        <div class="dot" id="d3"></div>
+      </div>
+      <div style="margin-top:6px;">
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════
+     CUERPO 2 COLUMNAS
+════════════════════════════════════════ -->
+<div class="body-wrap">
+
+  <!-- ── IZQUIERDA ── -->
+  <div class="left-panel">
+
+    <!-- Paso 1: foto -->
+    <div class="step-block">
+      <div class="step-lbl">
+        <div class="step-num">1</div>
+        <div class="step-txt">
+          <div class="st">SUBÍ TU FOTO</div>
+          <div class="sh">(SIN FONDO RECOMENDADO)</div>
+        </div>
+      </div>
+      <div class="uz" id="uz1">
+        <input type="file" id="in1" accept="image/*" onchange="upload('p',event)">
+        <!-- ícono persona SVG — igual al mockup -->
+        <div class="uz-ic">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="22" cy="15" r="8" stroke="#1A8A8A" stroke-width="2.5" fill="none"/>
+            <path d="M6 38c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#1A8A8A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="uz-mt" id="ut1">Hacer clic para seleccionar<br>o arrastrar imagen</div>
+        <div class="uz-sb" id="us1">Formatos: PNG, JPG</div>
+        <img id="up1" class="uz-prev" alt="">
+      </div>
+    </div>
+
+    <!-- Paso 2: marco -->
+    <div class="step-block">
+      <div class="step-lbl">
+        <div class="step-num">2</div>
+        <div class="step-txt">
+          <div class="st">SUBÍ EL MARCO / FIGURITA</div>
+          <div class="sh">(PNG RECOMENDADO)</div>
+        </div>
+      </div>
+      <div class="uz" id="uz2">
+        <input type="file" id="in2" accept="image/*" onchange="upload('f',event)">
+        <!-- ícono imagen/marco SVG — igual al mockup -->
+        <div class="uz-ic">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="9" width="34" height="26" rx="3" stroke="#1A8A8A" stroke-width="2.5" fill="none"/>
+            <circle cx="15" cy="18" r="3" stroke="#1A8A8A" stroke-width="2" fill="none"/>
+            <path d="M5 30l9-8 7 7 5-5 13 11" stroke="#1A8A8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="uz-mt" id="ut2">Hacer clic para seleccionar<br>o arrastrar imagen</div>
+        <div class="uz-sb" id="us2">Formatos: PNG, JPG</div>
+        <img id="up2" class="uz-prev" alt="">
+      </div>
+    </div>
+
+    <!-- Paso 3: datos -->
+    <div class="step-block">
+      <div class="step-lbl">
+        <div class="step-num">3</div>
+        <div class="step-txt">
+          <div class="st">INGRESÁ TUS DATOS</div>
+        </div>
+      </div>
+
+      <div class="fld">
+        <label>Nombre del jugador</label>
+        <input type="text" id="fn" placeholder="Ej: Francisco Charco" maxlength="22" oninput="liveRender()">
+      </div>
+      <div class="fld">
+        <label>Posición del jugador</label>
+        <select id="fp" onchange="liveRender()">
+          <option>Delantero</option>
+          <option>Mediocampista</option>
+          <option>Defensor</option>
+          <option>Arquero</option>
+        </select>
+      </div>
+
+      <!-- Botón 1: Con IA completa — transforma cara adoptando estética del jugador -->
+      <button class="btn-crear" id="btnC" onclick="crear()" style="margin-top:16px">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1l2.06 5.64L17 9l-5.94 2.36L9 17l-2.06-5.64L1 9l5.94-2.36z" stroke="white" stroke-width="1.5" stroke-linejoin="round" fill="rgba(255,255,255,.2)"/></svg>
+        CREAR CON IA COMPLETA
+      </button>
+
+      <!-- Separador con label -->
+      <div style="display:flex;align-items:center;gap:8px;margin:10px 0 2px;">
+        <div style="flex:1;height:1px;background:#E0D8CE;"></div>
+        <span style="font-size:.65rem;color:var(--txt2);letter-spacing:1.5px;font-weight:700;text-transform:uppercase;white-space:nowrap;">o elegí otro modo</span>
+        <div style="flex:1;height:1px;background:#E0D8CE;"></div>
+      </div>
+
+      <!-- Botón 2: Rostro exacto con IA — cara real sin transformar, posicionada por Replicate -->
+      <button class="btn-rostro" id="btnRostro" onclick="crearRostroExacto()" style="margin-top:4px">
+        🪪 MI ROSTRO EXACTO
+      </button>
+      <div style="font-size:.67rem;color:var(--txt2);text-align:center;margin-top:4px;line-height:1.4;">
+        Tu cara real, sin modificar, posicionada<br>exactamente en la figurita
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── DERECHA: PREVIEW ── -->
+  <div class="right-panel">
+    <div class="vp-hdr"><span>VISTA PREVIA</span></div>
+    <div class="vp-body">
+
+      <div class="cv-wrap">
+        <canvas id="cv" width="660" height="900" style="width:330px;height:450px;border-radius:14px"></canvas>
+        <div class="cv-ov" id="cvOv">
+          <div class="spinner"></div>
+          <div class="ov-title" id="ovT">GENERANDO</div>
+          <div class="ov-sub"   id="ovS">La IA está trabajando...</div>
+          <div class="pg-bar"><div class="pg-fill" id="pgF"></div></div>
+        </div>
+      </div>
+
+      <div class="sbar info show" id="sb">
+        💡 Subí tu foto y el marco, completá los datos y presioná <strong>Crear</strong>.
+      </div>
+
+      <div class="dl-wrap" id="dlW">
+        <button class="dl-btn" onclick="doDownload()">⬇&nbsp; DESCARGAR FIGURITA</button>
+        <button class="sh-btn" onclick="doShare()">↗&nbsp; COMPARTIR</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     CÓMO FUNCIONA
+════════════════════════════════════════ -->
+<section class="how-sec">
+  <h2>¿CÓMO FUNCIONA?</h2>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="hc-ic tl">⬆️</div>
+      <div class="hc-num">1. SUBÍ TU FOTO</div>
+      <h3>Tu foto</h3>
+      <p>Subí tu foto personal en buena calidad.</p>
+    </div>
+    <div class="how-card">
+      <div class="hc-ic bd">🖼️</div>
+      <div class="hc-num">2. SUBÍ EL MARCO</div>
+      <h3>El marco</h3>
+      <p>Elegí la figurita del Mundial 2026 que más te guste.</p>
+    </div>
+    <div class="how-card">
+      <div class="hc-ic tl">🧑</div>
+      <div class="hc-num">3. COMPLETÁ TUS DATOS</div>
+      <h3>Tus datos</h3>
+      <p>Ingresá tu nombre y posición en la cancha.</p>
+    </div>
+    <div class="how-card">
+      <div class="hc-ic bd">✦</div>
+      <div class="hc-num">4. GENERAMOS TU FIGURITA</div>
+      <h3>Listo</h3>
+      <p>La IA integra todo y creamos tu figurita personalizada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     BANNER 3 INTENTOS
+════════════════════════════════════════ -->
+<div class="free-bar">
+  <div class="free-inner">
+    <div class="free-left">
+      <div class="free-lock">🔒</div>
+      <div class="free-copy">
+        <strong>TUS 3 INTENTOS GRATIS</strong>
+        <p>Cada cuenta tiene 3 intentos gratuitos.<br>Luego podrás seguir personalizando por un costo adicional.</p>
+      </div>
+    </div>
+    <button class="btn-ver" onclick="openModal()">VER PLANES Y PRECIOS &nbsp;→</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="ft-brand">
+    <div class="ft-logo">
+      <div class="trophy">🏆</div>
+      <div class="fifa">FIFA</div>
+    </div>
+    <div class="ft-txt">
+      <strong>MUNDIAL 2026</strong>
+      <span>VIVÍ TU PASIÓN. TENÉ TU FIGURITA.</span>
+    </div>
+  </div>
+  <div style="font-size:.68rem;color:rgba(255,255,255,.3);letter-spacing:1px;">Figuritas Mundial 2026</div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     MODAL PLANES Y PRECIOS
+════════════════════════════════════════ -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+
+    <div class="modal-hdr">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="mi">🎴</div>
+      <h2>PLANES Y PACKS</h2>
+      <p>Elegí el pack que mejor se adapta a vos y seguí creando figuritas únicas.</p>
+    </div>
+
+    <div class="packs-grid">
+
+      <!-- BÁSICO -->
+      <div class="pk">
+        <div class="pk-ic">⚽</div>
+        <div class="pk-name">Básico</div>
+        <div class="pk-price">$1 USD</div>
+        <ul class="pk-features">
+          <li><span class="chk">✓</span>1 figurita personalizada</li>
+          <li><span class="chk">✓</span>Descarga en PNG HD</li>
+          <li><span class="chk">✓</span>Nombre y posición</li>
+          <li><span class="chk">✓</span>Procesado con IA</li>
+        </ul>
+        <button class="btn-pk tl" onclick="pagarConMP('basico')" id="btnBasico">CONTRATAR →</button>
+      </div>
+
+      <!-- ESTRELLA -->
+      <div class="pk feat">
+        <div class="pk-badge">⭐ MÁS POPULAR</div>
+        <div class="pk-ic">🏆</div>
+        <div class="pk-name">Estrella</div>
+        <div class="pk-price">$6 USD</div>
+        <ul class="pk-features">
+          <li><span class="chk">✓</span>5 figuritas personalizadas</li>
+          <li><span class="chk">✓</span>Descarga en PNG HD</li>
+          <li><span class="chk">✓</span>Versión para imprimir</li>
+        </ul>
+        <button class="btn-pk gd" onclick="pagarConMP('estrella')" id="btnEstrella">ELEGIR PACK →</button>
+      </div>
+
+      <!-- ÁLBUM -->
+      <div class="pk">
+        <div class="pk-ic">📕</div>
+        <div class="pk-name">Álbum</div>
+        <div class="pk-price">$15 USD</div>
+        <ul class="pk-features">
+          <li><span class="chk">✓</span>15 figuritas personalizadas</li>
+          <li><span class="chk">✓</span>Descarga en PNG HD</li>
+          <li><span class="chk">✓</span>Kit para imprimir</li>
+          <li><span class="chk">✓</span>Compartir en redes</li>
+        </ul>
+        <button class="btn-pk bd" onclick="pagarConMP('album')" id="btnAlbum">ELEGIR PACK →</button>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cerrar" onclick="closeModal()">Cerrar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     JS
+════════════════════════════════════════ -->
+<script>
+// ── URL de tu Google Apps Script — no cambiar ──
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-hTtUaXM32MmtBfMSRFH7wJrnnYVAsk35aNqlr7XLuXDw1pWulXwyZXbuxhpLsl4tmA/exec';
+
+const MAX = 3;
+// ID único por cliente — solo para identificarlo en Sheets
+let CLIENT_ID = localStorage.getItem('fig26_cid') || '';
+if (!CLIENT_ID) {
+  CLIENT_ID = 'c' + Date.now() + Math.random().toString(36).substr(2,8);
+  localStorage.setItem('fig26_cid', CLIENT_ID);
+}
+let st = {
+  att: parseInt(localStorage.getItem('mf26') || '0'),
+  pImg:null, pB64:null,
+  fImg:null, fB64:null,
+};
+const cv  = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const W=660, H=900;
+ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+
+/* ── INIT ─── */
+updAtt(); drawPH();
+
+function updAtt(){
+  const r = Math.max(0, MAX - st.att);
+  document.getElementById('hc').textContent = r;
+  document.getElementById('hr').textContent = r;
+  for(let i=1;i<=3;i++) document.getElementById(`d${i}`).classList.toggle('used', i<=st.att);
+  if(r===0){
+    const b=document.getElementById('btnC');
+    b.textContent='⛔ SIN INTENTOS GRATUITOS'; b.disabled=true;
+    const b2=document.getElementById('btnRostro');
+    if(b2){ b2.textContent='⛔ SIN INTENTOS GRATUITOS'; b2.disabled=true; }
+  }
+}
+function save(){ localStorage.setItem('mf26', st.att); }
+
+
+/* ── UPLOADS ─── */
+function upload(t, e){
+  const f = e.target.files[0]; if(!f)return;
+  const r = new FileReader();
+  r.onload = ev => {
+    const b64 = ev.target.result.split(',')[1];
+    const img = new Image();
+    img.onload = () => {
+      if(t==='p'){ st.pImg=img; st.pB64=b64; markDone(1,f.name); showThumb(1,ev.target.result); }
+      else        { st.fImg=img; st.fB64=b64; markDone(2,f.name); showThumb(2,ev.target.result); liveRender(); }
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(f);
+}
+function markDone(n, nm){
+  document.getElementById(`uz${n}`).classList.add('done');
+  const ic = document.getElementById(`uz${n}`).querySelector('.uz-ic');
+  ic.innerHTML = '<span style="font-size:1.8rem">✅</span>';
+  document.getElementById(`ut${n}`).textContent = nm.length>26 ? nm.slice(0,24)+'…' : nm;
+  document.getElementById(`us${n}`).textContent = 'Imagen cargada ✓';
+}
+function showThumb(n, src){ const el=document.getElementById(`up${n}`); el.src=src; el.classList.add('show'); }
+
+/* ── LIVE RENDER ─── */
+function liveRender(){ if(st.fImg || st.pImg) buildCanvas(false); }
+
+/* ── CREAR con Replicate face swap ─── */
+function crear(){
+  if(!st.pImg){ setStatus('err','⚠️ Subí tu foto primero (paso 1).'); return; }
+  if(!st.fImg){ setStatus('err','⚠️ Subí el marco de figurita (paso 2).'); return; }
+  const nm = document.getElementById('fn').value.trim();
+  if(!nm){ setStatus('err','⚠️ Ingresá el nombre del jugador.'); return; }
+  if(st.att >= MAX){ openModal(); return; }
+
+  st.att++; save(); updAtt();
+  showOv(true,'PROCESANDO','Subiendo imágenes al servidor...');
+  setPg(15);
+  setStatus('load','⚡ Generando tu figurita con IA...');
+  document.getElementById('dlW').classList.remove('show');
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fn: 'generarFigurita', pB64: st.pB64, fB64: st.fB64, clientId: CLIENT_ID })
+  })
+  .then(r => r.json())
+  .then(function(result){
+    if(result.ok){
+      setPg(90);
+      mostrarResultado(result.url, nm);
+    } else {
+      showOv(false);
+      setStatus('err','❌ Error IA: ' + result.error);
+      st.att=Math.max(0,st.att-1); save(); updAtt();
+    }
+  })
+  .catch(function(err){
+    showOv(false);
+    setStatus('err','❌ Error: ' + err.message);
+    st.att=Math.max(0,st.att-1); save(); updAtt();
+  });
+}
+
+/* ── MOSTRAR RESULTADO ─── */
+function mostrarResultado(imageUrl, nm){
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    const ps = document.getElementById('fp').value;
+    ctx.clearRect(0,0,W,H);
+
+    // Dibujar imagen del face swap completa
+    rr(0,0,W,H,14,'clip');
+    ctx.save();
+    ctx.drawImage(img, 0, 0, W, H);
+    ctx.restore();
+
+    // ── BANDAS NOMBRE Y POSICIÓN ──
+    // Sombreado leve de fondo
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.97)';
+    ctx.fillRect(0, H - 215, W, 215);
+    ctx.restore();
+
+    // Banda bordo — nombre del cliente
+    const nameH = 90;
+    const bandY = H - 195;
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 10;
+    ctx.fillStyle = '#8B1020';
+    rr(6, bandY, W-12, nameH, 10, 'fill');
+    ctx.restore();
+
+    // Nombre grande
+    ctx.save();
+    const fs = nm.length>18 ? 36 : nm.length>14 ? 42 : nm.length>10 ? 48 : 58;
+    ctx.font = `900 ${fs}px 'Bebas Neue', sans-serif`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowBlur = 3;
+    ctx.fillText(nm.toUpperCase(), W/2, bandY + nameH/2);
+    ctx.restore();
+
+    // Banda posición teal
+    const posY = bandY + nameH + 2;
+    const posH = 52;
+    ctx.save();
+    ctx.fillStyle = '#1A7A7A';
+    rr(6, posY, W-12, posH, 8, 'fill');
+    ctx.restore();
+
+    // Posición grande
+    ctx.save();
+    ctx.font = `700 24px 'Nunito', sans-serif`;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ps.toUpperCase(), W/2, posY + posH/2);
+    ctx.restore();
+
+
+
+    setPg(100);
+    setTimeout(()=>{
+      showOv(false);
+      setStatus('ok', '✅ ¡Figurita de ' + nm + ' creada!');
+      document.getElementById('dlW').classList.add('show');
+    }, 350);
+  };
+  img.onerror = function(){
+    showOv(false);
+    setStatus('ok', '✅ ¡Figurita lista! Hacé clic en Descargar.');
+    document.getElementById('dlW').classList.add('show');
+  };
+  img.src = imageUrl;
+}
+
+/* ── DESCARGA SIEMPRE DESDE CANVAS ─── */
+function doDownload(){
+  const nm=(document.getElementById('fn').value||'figurita').replace(/\s/g,'_');
+  const a=document.createElement('a');
+  a.download='figurita-mundial2026-'+nm+'.png';
+  a.href=cv.toDataURL('image/png');
+  a.click();
+}
+
+/* ── BOTÓN 2: ROSTRO EXACTO CON IA (Replicate, sin transformar la cara) ─── */
+/* ══════════════════════════════════════════════════════════
+   BOTÓN 2 — ROSTRO EXACTO
+   1. Llama GAS → remove-bg en Replicate (borra fondo foto)
+   2. Descarga foto sin fondo como imagen
+   3. face-api.js detecta cara en foto sin fondo y en figurita
+   4. Canvas pega cara sin fondo sobre figurita — integración limpia
+══════════════════════════════════════════════════════════ */
+async function crearRostroExacto(){
+  if(!st.pImg){ setStatus('err','⚠️ Subí tu foto primero (paso 1).'); return; }
+  if(!st.fImg){ setStatus('err','⚠️ Subí el marco de figurita (paso 2).'); return; }
+  const nm = document.getElementById('fn').value.trim();
+  if(!nm){ setStatus('err','⚠️ Ingresá el nombre del jugador.'); return; }
+  if(st.att >= MAX){ openModal(); return; }
+
+  st.att++; save(); updAtt();
+  showOv(true,'PROCESANDO','Preparando tu figurita...');
+  setPg(20);
+  setStatus('load','🪪 Integrando tu rostro exacto...');
+  document.getElementById('dlW').classList.remove('show');
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fn: 'generarFiguritaRostroExacto', pB64: st.pB64, fB64: st.fB64, clientId: CLIENT_ID })
+  })
+  .then(r => r.json())
+  .then(function(result){
+      if(result.ok){
+        setPg(90);
+        mostrarResultado(result.url, nm);
+      } else {
+        showOv(false);
+        setStatus('err','❌ Error: ' + result.error);
+        st.att=Math.max(0,st.att-1); save(); updAtt();
+      }
+    })
+  .catch(function(err){
+      showOv(false);
+      setStatus('err','❌ Error: ' + err.message);
+      st.att=Math.max(0,st.att-1); save(); updAtt();
+    });
+}
+
+
+/* carga dinámica de scripts */
+function loadScript(src){
+  return new Promise((res,rej)=>{
+    if(document.querySelector('script[src="'+src+'"]')){ res(); return; }
+    const s=document.createElement('script');
+    s.src=src; s.onload=res; s.onerror=rej;
+    document.head.appendChild(s);
+  });
+}
+
+/* ── BUILD CANVAS ─── */
+function buildCanvas(final=false, ai=null){
+  const nm = document.getElementById('fn').value || 'Jugador';
+  const ps = document.getElementById('fp').value;
+  const ac = ai?.ca || '#C8A020';
+  const bc = ai?.cf || '#0B1E45';
+
+  ctx.clearRect(0,0,W,H);
+
+  // Fondo
+  const bg = ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0, lighten(bc,.38)); bg.addColorStop(1, darken(bc,.5));
+  ctx.fillStyle=bg; rr(0,0,W,H,14,'fill');
+
+  // Marco difuso
+  if(st.fImg){ ctx.save(); ctx.globalAlpha=.14; rr(0,0,W,H,14,'clip'); fitCover(st.fImg,0,0,W,H); ctx.restore(); }
+
+  // Diagonales sutiles
+  ctx.save(); ctx.globalAlpha=.05; ctx.strokeStyle=ac; ctx.lineWidth=1;
+  for(let x=-H;x<W+H;x+=20){ ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+H,H);ctx.stroke(); }
+  ctx.restore();
+
+  // Marco con transparencia
+  if(st.fImg){ ctx.save(); ctx.globalAlpha=.82; rr(0,0,W,H,14,'clip'); fitCover(st.fImg,0,0,W,H); ctx.restore(); }
+
+  // Foto jugador
+  if(st.pImg){
+    const px=16,py=48,pw=W-32,ph=H*.63;
+    ctx.save(); rr(px,py,pw,ph,10,'clip');
+    fitCoverTop(st.pImg,px,py,pw,ph);
+    const g=ctx.createLinearGradient(0,py+ph*.45,0,py+ph);
+    g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.65)');
+    ctx.fillStyle=g; ctx.fillRect(px,py,pw,ph);
+    ctx.restore();
+  }
+
+  // Nro watermark
+  if(ai?.num){ ctx.save(); ctx.font=`bold 120px 'Bebas Neue',sans-serif`; ctx.fillStyle='rgba(255,255,255,.05)'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText(ai.num,W-10,H-60); ctx.restore(); }
+
+  // Badge FIFA
+  ctx.save(); ctx.fillStyle='rgba(0,0,0,.52)'; rr(W-68,8,60,22,6,'fill');
+  ctx.font=`700 8px 'Nunito',sans-serif`; ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('FIFA 2026',W-38,19); ctx.restore();
+
+  // País watermark
+  if(ai?.pais){ ctx.save(); ctx.font=`bold 48px 'Bebas Neue',sans-serif`; ctx.fillStyle='rgba(255,255,255,.07)'; ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillText(ai.pais.slice(0,3).toUpperCase(),12,4); ctx.restore(); }
+
+  // Banda nombre
+  const by=H*.73, bh=H-by-10;
+  ctx.save(); ctx.fillStyle=darken(bc,.68); ctx.shadowColor='rgba(0,0,0,.3)'; ctx.shadowBlur=14; rr(10,by,W-20,bh,10,'fill'); ctx.restore();
+  ctx.save(); ctx.fillStyle=ac; ctx.fillRect(12,by,W-24,3); ctx.restore();
+
+  // Nombre
+  ctx.save();
+  const fs=nm.length>16?22:nm.length>12?26:31;
+  ctx.font=`800 ${fs}px 'Bebas Neue',sans-serif`; ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.shadowColor='rgba(0,0,0,.4)'; ctx.shadowBlur=5;
+  ctx.fillText(nm.toUpperCase(),W/2,by+8); ctx.restore();
+
+  // Posición
+  ctx.save(); ctx.font=`700 9px 'Nunito',sans-serif`;
+  const pw=ctx.measureText(ps.toUpperCase()).width+18;
+  ctx.fillStyle=ac; rr(W/2-pw/2,by+40,pw,15,4,'fill');
+  ctx.fillStyle='#000'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(ps.toUpperCase(),W/2,by+47); ctx.restore();
+
+  ctx.save(); ctx.fillStyle='rgba(0,0,0,.65)'; rr(W-64,H-25,52,16,4,'fill');
+
+  // Borde
+  ctx.save(); ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.lineWidth=1.5; rr(1,1,W-2,H-2,13,'stroke'); ctx.restore();
+
+  if(final){ showOv(false); setStatus('ok',`✅ ¡Figurita lista!`); document.getElementById('dlW').classList.add('show'); }
+}
+
+/* ── PLACEHOLDER ─── */
+function drawPH(){
+  ctx.clearRect(0,0,W,H);
+  const bg=ctx.createLinearGradient(0,0,W,H); bg.addColorStop(0,'#e4f2f2'); bg.addColorStop(1,'#d0e6e6');
+  ctx.fillStyle=bg; rr(0,0,W,H,14,'fill');
+  ctx.save(); ctx.strokeStyle='rgba(26,138,138,.3)'; ctx.lineWidth=2; ctx.setLineDash([8,8]); rr(1,1,W-2,H-2,13,'stroke'); ctx.restore();
+  ctx.font='46px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🎴',W/2,H/2-16);
+  ctx.save(); ctx.font=`800 11px 'Nunito',sans-serif`; ctx.fillStyle='rgba(26,138,138,.5)'; ctx.textBaseline='top'; ctx.fillText('TU FIGURITA AQUÍ',W/2,H/2+32); ctx.restore();
+}
+
+/* ── ACCIONES ─── */
+
+function doShare(){
+  cv.toBlob(b=>{
+    const f=new File([b],'figurita-mundial2026.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})) navigator.share({title:'Mi Figurita 2026',files:[f]});
+    else{ doDownload(); setStatus('info','💡 Descargá y compartí desde tu galería.'); }
+  });
+}
+function selPack(p){ alert(`Pack "${p}" seleccionado.\n\nIntegrá aquí tu pasarela de pago.`); }
+
+/* ── MODAL ─── */
+function openModal(){  document.getElementById('modalBg').classList.add('open'); }
+
+function pagarConMP(plan){
+  const btn = document.getElementById('btn' + plan.charAt(0).toUpperCase() + plan.slice(1));
+  if(btn){ btn.textContent = '⏳ Generando link...'; btn.disabled = true; }
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fn: 'crearPagoMP', plan: plan, clientId: CLIENT_ID })
+  })
+  .then(r => r.json())
+  .then(function(result){
+      if(result.ok){
+        window.open(result.url, '_blank');
+        closeModal();
+        setStatus('load', '💳 Completá el pago en MercadoPago. Cuando termines, recargá la página con tu código.');
+      } else {
+        setStatus('err', '❌ Error al generar pago: ' + result.error);
+      }
+      if(btn){ btn.textContent = plan === 'basico' ? 'CONTRATAR →' : 'ELEGIR PACK →'; btn.disabled = false; }
+    })
+  .catch(function(err){
+      setStatus('err', '❌ Error: ' + err.message);
+      if(btn){ btn.textContent = plan === 'basico' ? 'CONTRATAR →' : 'ELEGIR PACK →'; btn.disabled = false; }
+    });
+}
+
+// Verificar si viene de un pago aprobado (URL params)
+function verificarPago(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('pago') === 'ok'){
+    const intentos = parseInt(params.get('intentos') || '0');
+    const plan = params.get('plan') || '';
+    if(intentos > 0){
+      st.att = Math.max(0, st.att - intentos);
+      save();
+      updAtt();
+      setStatus('ok', '✅ ¡Pago confirmado! Se agregaron ' + intentos + ' figuritas a tu cuenta.');
+    }
+  }
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('open'); }
+
+/* ── UI HELPERS ─── */
+function setStatus(tp,html){ const e=document.getElementById('sb'); e.className=`sbar ${tp} show`; e.innerHTML=html; }
+function showOv(s,t='',sub=''){ document.getElementById('cvOv').classList.toggle('show',s); if(s){document.getElementById('ovT').textContent=t;document.getElementById('ovS').textContent=sub;} }
+function setPg(p){ document.getElementById('pgF').style.width=p+'%'; }
+
+/* ── CANVAS HELPERS ─── */
+function rr(x,y,w,h,r,m){
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r); ctx.lineTo(x+r,y+h);
+  ctx.arcTo(x,y+h,x,y+h-r,r); ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+  if(m==='fill')ctx.fill(); if(m==='stroke')ctx.stroke(); if(m==='clip')ctx.clip();
+}
+function h2r(h){ const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h); return r?[parseInt(r[1],16),parseInt(r[2],16),parseInt(r[3],16)]:[20,40,80]; }
+function lighten(h,f=.3){ const [r,g,b]=h2r(h); return `rgb(${Math.min(255,Math.round(r+(255-r)*f))},${Math.min(255,Math.round(g+(255-g)*f))},${Math.min(255,Math.round(b+(255-b)*f))})`; }
+function darken(h,f=.6){ const [r,g,b]=h2r(h); return `rgb(${Math.round(r*f)},${Math.round(g*f)},${Math.round(b*f)})`; }
+function fitCover(img,x,y,w,h){ const ar=img.width/img.height,tar=w/h; let sx=0,sy=0,sw=img.width,sh=img.height; if(ar>tar){sw=sh*tar;sx=(img.width-sw)/2;}else{sh=sw/tar;sy=(img.height-sh)/2;} ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h); }
+function fitCoverTop(img,x,y,w,h){ const ar=img.width/img.height,tar=w/h; let sx=0,sy=0,sw=img.width,sh=img.height; if(ar>tar){sw=sh*tar;sx=(img.width-sw)/2;}else sh=sw/tar; ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h); }
+
+/* ── SERVICE WORKER (PWA) ─── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('SW registrado ✓'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+
+</script>
+</body>
+</html>
