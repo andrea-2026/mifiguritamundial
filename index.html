@@ -1028,7 +1028,6 @@ function crear(){
     if(_paidTotal - _paidUsed <= 0) { openModal(); return; }
   }
 
-  st.att++; save(); updAtt();
   showOv(true,'PROCESANDO','Subiendo imágenes al servidor...');
   setPg(15);
   setStatus('load','⚡ Generando tu figurita con IA...');
@@ -1181,7 +1180,6 @@ async function crearRostroExacto(){
     if(_paidTotal - _paidUsed <= 0) { openModal(); return; }
   }
 
-  st.att++; save(); updAtt();
   showOv(true,'PROCESANDO','Preparando tu figurita...');
   setPg(20);
   setStatus('load','🪪 Integrando tu rostro exacto...');
