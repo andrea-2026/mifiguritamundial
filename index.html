@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Figurita 2026</title>
-<script defer src="/_vercel/insights/script.js"></script>  
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1A8A8A">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -949,6 +950,7 @@ function updPaid() {
     localStorage.setItem('mf26_paid_used',  '0');
     window.history.replaceState({}, document.title, window.location.pathname);
     setTimeout(() => {
+      va('event', { name: 'pago_confirmado', data: { intentos: intentos } });
       alert('✅ ¡Pago exitoso! Tenés ' + intentos + ' figurita(s) disponible(s).');
       updPaid();
     }, 500);
@@ -1044,6 +1046,7 @@ function crear(){
     if(result.ok){
       setPg(90);
       if(st.att >= MAX && _paidTotal > _paidUsed) {
+          va('event', { name: 'intento_pago_usado' });
           _paidUsed++;
           // Si se agotaron, resetear todo a 0
           if(_paidUsed >= _paidTotal) {
@@ -1061,6 +1064,7 @@ function crear(){
             updPaid();
           }
         } else if(st.att < MAX) {
+          va('event', { name: 'intento_gratuito_usado' });
           st.att++;
           save(); updAtt();
         }
@@ -1196,6 +1200,7 @@ async function crearRostroExacto(){
       if(result.ok){
         setPg(90);
         if(st.att >= MAX && _paidTotal > _paidUsed) {
+          va('event', { name: 'intento_pago_usado' });
           _paidUsed++;
           if(_paidUsed >= _paidTotal) {
             _paidTotal = 0;
@@ -1212,6 +1217,7 @@ async function crearRostroExacto(){
             updPaid();
           }
         } else if(st.att < MAX) {
+          va('event', { name: 'intento_gratuito_usado' });
           st.att++;
           save(); updAtt();
         }
@@ -1334,9 +1340,13 @@ function doShare(){
 function selPack(p){ alert(`Pack "${p}" seleccionado.\n\nIntegrá aquí tu pasarela de pago.`); }
 
 /* ── MODAL ─── */
-function openModal(){  document.getElementById('modalBg').classList.add('open'); }
+function openModal(){
+  document.getElementById('modalBg').classList.add('open');
+  va('event', { name: 'modal_pago_abierto' });
+}
 
 function pagarConMP(plan){
+  va('event', { name: 'click_pagar_mp', data: { plan: plan } });
   const btn = document.getElementById('btn' + plan.charAt(0).toUpperCase() + plan.slice(1));
   if(btn){ btn.textContent = '⏳ Generando link...'; btn.disabled = true; }
 
