@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidad — Mi Figurita 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A8A8A">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #F0EBE0;
+  --white:     #FFFFFF;
+  --teal:      #1A8A8A;
+  --teal-dark: #146E6E;
+  --teal-lt:   #E5F4F4;
+  --bordo:     #8C1A28;
+  --bordo-dk:  #6E1320;
+  --navy:      #0B1E45;
+  --navy2:     #071335;
+  --gold:      #C8A020;
+  --txt:       #1A1A2A;
+  --txt2:      #6A7080;
+  --border:    #D8D0C4;
+  --sh:        rgba(10,28,68,.10);
+  --blob:      #1A8A8A;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--txt); font-family:'Nunito',sans-serif; min-height:100vh; }
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--white);
+  border-bottom: 3px solid var(--teal);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 16px var(--sh);
+  position: relative;
+  overflow: hidden;
+}
+.hdr::after {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 220px; height: 220px;
+  background: var(--blob);
+  border-radius: 50%;
+  opacity: .18;
+  pointer-events: none;
+}
+.brand h1 { font-family:'Bebas Neue',cursive; line-height:1; }
+.brand .l1 { font-size:1.05rem; letter-spacing:4px; color:var(--navy); }
+.brand .l2 { font-size:2.2rem; letter-spacing:2px; color:var(--teal); }
+.brand .sub { font-size:.65rem; letter-spacing:2.5px; color:var(--txt2); text-transform:uppercase; margin-top:2px; }
+
+.btn-volver {
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: .88rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all .2s;
+  letter-spacing: .3px;
+}
+.btn-volver:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+/* ── CONTENIDO ── */
+.page-wrap {
+  max-width: 820px;
+  margin: 40px auto 60px;
+  padding: 0 24px;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #0D3A4A 100%);
+  border-radius: 16px;
+  padding: 36px 40px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  right: -40px; top: -40px;
+  width: 180px; height: 180px;
+  background: rgba(26,138,138,.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.page-hero::after {
+  content: '';
+  position: absolute;
+  left: -20px; bottom: -30px;
+  width: 120px; height: 120px;
+  background: rgba(140,26,40,.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.page-hero .ic   { font-size: 2.4rem; margin-bottom: 12px; }
+.page-hero h1    { font-family:'Bebas Neue',cursive; font-size: 2rem; letter-spacing: 4px; color: #fff; margin-bottom: 8px; }
+.page-hero .meta { font-size: .78rem; color: rgba(255,255,255,.45); letter-spacing: 1px; }
+
+.card {
+  background: var(--white);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px var(--sh);
+  padding: 32px 36px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.25rem;
+  letter-spacing: 3px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--teal-lt);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card h2 .ico { font-size: 1.1rem; }
+
+.card p {
+  font-size: .88rem;
+  color: var(--txt2);
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+.card p:last-child { margin-bottom: 0; }
+
+.card ul {
+  list-style: none;
+  margin: 10px 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card ul li {
+  font-size: .87rem;
+  color: var(--txt2);
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.card ul li::before {
+  content: '✓';
+  width: 20px; height: 20px;
+  background: var(--teal-lt);
+  color: var(--teal);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.card a {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+.card a:hover { text-decoration: underline; }
+
+.highlight {
+  background: var(--teal-lt);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: .87rem;
+  color: var(--teal-dark);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.tag-updated {
+  display: inline-block;
+  background: var(--teal-lt);
+  color: var(--teal-dark);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  background: linear-gradient(135deg, var(--navy) 0%, #0D3A4A 100%);
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.ft-brand { display:flex; align-items:center; gap:12px; }
+.ft-logo {
+  width:44px; height:44px;
+  border-radius:8px;
+  overflow: hidden;
+}
+.ft-logo img { width:100%; height:100%; object-fit:cover; border-radius:8px; }
+.ft-txt strong { display:block; font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:3px; color:#fff; }
+.ft-txt span   { font-size:.68rem; color:rgba(255,255,255,.4); letter-spacing:1px; }
+.ft-links { display:flex; gap:20px; flex-wrap:wrap; }
+.ft-links a {
+  font-size:.72rem; color:rgba(255,255,255,.5); text-decoration:none;
+  letter-spacing:.8px; transition:color .2s;
+}
+.ft-links a:hover { color:#fff; }
+
+@media(max-width:600px){
+  .card { padding: 24px 20px; }
+  .page-hero { padding: 28px 24px; }
+  .hdr { padding: 16px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div style="width:64px;height:64px;border-radius:12px;overflow:hidden;flex-shrink:0;">
+      <img src="icon-192.png" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div class="brand">
+      <h1>
+        <span class="l1">MI FIGURITA</span><br>
+        <span class="l2">2026</span>
+      </h1>
+      <div class="sub">Creá tu figurita personalizada</div>
+    </div>
+  </div>
+  <a href="/" class="btn-volver">← Volver al inicio</a>
+</header>
+
+<!-- CONTENIDO -->
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="ic">🔒</div>
+    <h1>POLÍTICA DE PRIVACIDAD</h1>
+    <div class="meta">MIFIGURITAMUNDIAL.LAT</div>
+    <div class="tag-updated">Última actualización: Junio 2025</div>
+  </div>
+
+  <!-- Introducción -->
+  <div class="card">
+    <h2><span class="ico">📋</span> INTRODUCCIÓN</h2>
+    <p>
+      Esta Política de Privacidad describe cómo <strong>Mi Figurita Mundial 2026</strong>
+      (<strong>mifiguritamundial.lat</strong>) recopila, usa y protege la información
+      de los usuarios que acceden a nuestra plataforma.
+    </p>
+    <p>
+      Al utilizar este sitio web, aceptás los términos descritos en este documento.
+      Si no estás de acuerdo, te pedimos que no utilices el servicio.
+    </p>
+    <div class="highlight">
+      Este sitio es operado de forma independiente desde Argentina. No estamos
+      afiliados a FIFA, Panini ni ninguna organización oficial del Mundial 2026.
+    </div>
+  </div>
+
+  <!-- Datos que recopilamos -->
+  <div class="card">
+    <h2><span class="ico">📂</span> DATOS QUE RECOPILAMOS</h2>
+    <p>Para brindarte el servicio de generación de figuritas personalizadas, recopilamos los siguientes datos:</p>
+    <ul>
+      <li><strong>Imágenes fotográficas:</strong> las fotos que subís para generar tu figurita. Estas imágenes se procesan temporalmente a través de servicios de inteligencia artificial (Replicate, Segmind) y se almacenan de forma transitoria en Cloudinary para su procesamiento. No las usamos con ningún otro fin.</li>
+      <li><strong>Identificador de cliente (clientId):</strong> un código anónimo generado automáticamente y guardado en tu navegador (localStorage) para llevar el control de tus intentos gratuitos. No contiene ningún dato personal identificable.</li>
+      <li><strong>Datos de pago:</strong> si realizás una compra, el procesamiento del pago se realiza exclusivamente a través de <strong>MercadoPago</strong>. No almacenamos datos de tarjetas ni información financiera sensible en nuestros servidores.</li>
+      <li><strong>Datos de uso:</strong> estadísticas anónimas de visitas mediante Vercel Analytics, sin identificación personal.</li>
+      <li><strong>Cookies de publicidad:</strong> si tenés anuncios de Google AdSense activos, Google puede usar cookies para mostrarte anuncios personalizados según tu actividad de navegación.</li>
+    </ul>
+  </div>
+
+  <!-- Cómo usamos los datos -->
+  <div class="card">
+    <h2><span class="ico">⚙️</span> CÓMO USAMOS TUS DATOS</h2>
+    <p>Usamos la información recopilada exclusivamente para:</p>
+    <ul>
+      <li>Generar tu figurita personalizada usando inteligencia artificial</li>
+      <li>Llevar el control de tus intentos gratuitos y los packs adquiridos</li>
+      <li>Procesar los pagos a través de MercadoPago de forma segura</li>
+      <li>Mejorar la experiencia y el funcionamiento del sitio</li>
+      <li>Mostrar publicidad relevante mediante Google AdSense</li>
+    </ul>
+    <div class="highlight">
+      No vendemos, alquilamos ni compartimos tus datos personales con terceros
+      fuera de los proveedores técnicos necesarios para operar el servicio.
+    </div>
+  </div>
+
+  <!-- Terceros -->
+  <div class="card">
+    <h2><span class="ico">🔗</span> SERVICIOS DE TERCEROS</h2>
+    <p>Para operar, este sitio utiliza los siguientes proveedores externos, cada uno con su propia política de privacidad:</p>
+    <ul>
+      <li><strong>Cloudinary</strong> — almacenamiento temporal de imágenes para procesamiento. <a href="https://cloudinary.com/privacy" target="_blank">Ver política</a></li>
+      <li><strong>Replicate</strong> — procesamiento de imágenes con IA (face swap). <a href="https://replicate.com/privacy" target="_blank">Ver política</a></li>
+      <li><strong>MercadoPago</strong> — procesamiento de pagos. <a href="https://www.mercadopago.com.ar/privacidad" target="_blank">Ver política</a></li>
+      <li><strong>Google AdSense</strong> — publicidad. Puede usar cookies para personalizar anuncios. <a href="https://policies.google.com/privacy" target="_blank">Ver política de Google</a></li>
+      <li><strong>Vercel</strong> — hosting y analítica anónima de tráfico. <a href="https://vercel.com/legal/privacy-policy" target="_blank">Ver política</a></li>
+      <li><strong>Google Fonts</strong> — tipografías. Puede registrar la IP del visitante. <a href="https://policies.google.com/privacy" target="_blank">Ver política</a></li>
+    </ul>
+  </div>
+
+  <!-- Cookies -->
+  <div class="card">
+    <h2><span class="ico">🍪</span> USO DE COOKIES Y ALMACENAMIENTO LOCAL</h2>
+    <p>
+      Este sitio utiliza <strong>localStorage</strong> del navegador para guardar tu identificador de cliente
+      y el conteo de intentos disponibles. Esto no es una cookie tradicional y no se comparte con terceros.
+    </p>
+    <p>
+      Google AdSense puede instalar cookies en tu navegador para mostrarte anuncios personalizados.
+      Podés desactivar los anuncios personalizados desde
+      <a href="https://adssettings.google.com" target="_blank">adssettings.google.com</a>.
+    </p>
+  </div>
+
+  <!-- Derechos del usuario -->
+  <div class="card">
+    <h2><span class="ico">✋</span> TUS DERECHOS</h2>
+    <p>Como usuario, tenés derecho a:</p>
+    <ul>
+      <li>Saber qué datos tuyos tenemos almacenados</li>
+      <li>Solicitar la eliminación de tus datos</li>
+      <li>Borrar tu identificador local limpiando el almacenamiento de tu navegador (localStorage)</li>
+      <li>Optar por no recibir anuncios personalizados de Google</li>
+    </ul>
+    <p>
+      Para ejercer cualquiera de estos derechos o ante cualquier consulta,
+      podés contactarnos por Instagram: <a href="https://instagram.com/mifiguritamundial" target="_blank">@mifiguritamundial</a>.
+    </p>
+  </div>
+
+  <!-- Menores -->
+  <div class="card">
+    <h2><span class="ico">👦</span> MENORES DE EDAD</h2>
+    <p>
+      Este servicio no está dirigido a menores de 13 años. Si sos menor de edad,
+      necesitás el consentimiento de tu padre, madre o tutor legal para usar este sitio.
+      No recopilamos intencionalmente datos de menores de 13 años.
+    </p>
+  </div>
+
+  <!-- Cambios -->
+  <div class="card">
+    <h2><span class="ico">🔄</span> CAMBIOS EN ESTA POLÍTICA</h2>
+    <p>
+      Podemos actualizar esta política en cualquier momento. Cualquier cambio importante
+      será notificado en esta misma página con la fecha de actualización. Te recomendamos
+      revisarla periódicamente.
+    </p>
+    <p>
+      El uso continuado del sitio luego de publicados los cambios implica la aceptación
+      de la nueva política.
+    </p>
+  </div>
+
+  <!-- Contacto -->
+  <div class="card">
+    <h2><span class="ico">📬</span> CONTACTO</h2>
+    <p>
+      Si tenés preguntas, inquietudes o reclamos sobre esta Política de Privacidad
+      o sobre el manejo de tus datos, podés contactarnos a través de:
+    </p>
+    <ul>
+      <li>Instagram: <a href="https://instagram.com/mifiguritamundial" target="_blank">@mifiguritamundial</a></li>
+      <li>Sitio web: <a href="https://mifiguritamundial.lat">mifiguritamundial.lat</a></li>
+    </ul>
+    <div class="highlight">
+      Esta política está redactada en cumplimiento de la Ley N° 25.326 de Protección de
+      Datos Personales de la República Argentina y los requisitos de Google AdSense.
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="ft-brand">
+    <div class="ft-logo">
+      <img src="icon-192.png" alt="Mi Figurita 2026">
+    </div>
+    <div class="ft-txt">
+      <strong>MUNDIAL 2026</strong>
+      <span>VIVÍ TU PASIÓN. TENÉ TU FIGURITA.</span>
+    </div>
+  </div>
+  <div class="ft-links">
+    <a href="/">Inicio</a>
+    <a href="/privacy.html">Privacidad</a>
+  </div>
+  <div style="font-size:.68rem;color:rgba(255,255,255,.3);letter-spacing:1px;">
+    © 2025 mifiguritamundial.lat
+  </div>
+</footer>
+
+</body>
+</html>
